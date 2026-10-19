@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rehab Admin</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0f; color: #fff; padding: 20px; }
+        h1 { font-size: 1.4rem; color: #ff69b4; margin-bottom: 20px; }
+        .login { max-width: 400px; margin: 100px auto; text-align: center; }
+        .login input {
+            width: 100%; padding: 12px 16px; background: #12121f; border: 1px solid #333;
+            border-radius: 8px; color: #fff; font-size: 1rem; margin-bottom: 12px; outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .login button {
+            width: 100%; padding: 12px; background: #ff1493; border: none; border-radius: 8px;
+            color: #fff; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
+        }
+        .stats { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+        .stat {
+            background: #12121f; border: 1px solid #1a1a2e; border-radius: 10px;
+            padding: 16px 20px; flex: 1; min-width: 140px;
+        }
+        .stat .num { font-size: 1.6rem; font-weight: 700; color: #ff69b4; }
+        .stat .label { font-size: 0.8rem; color: #666; margin-top: 4px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 10px 12px; color: #888; font-size: 0.8rem; border-bottom: 1px solid #1a1a2e; }
+        td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.9rem; color: #ccc; }
+        tr:hover td { background: rgba(255,20,147,0.03); }
+        .user { color: #ff69b4; font-weight: 600; }
+        .tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+        .tag-trigger { background: rgba(255,105,180,0.12); color: #ff69b4; }
+        .time { color: #555; font-size: 0.8rem; }
+        #content { display: none; }
+    </style>
+</head>
+<body>
+    <div class="login" id="loginBox">
+        <h1>Rehab Admin 🔒</h1>
+        <input type="password" id="keyInput" placeholder="Admin key">
+        <button onclick="login()">Enter</button>
+    </div>
+
+    <div id="content">
+        <h1>Findom Rehab — Submissions 💞</h1>
+        <div class="stats">
+            <div class="stat"><div class="num" id="totalCount">0</div><div class="label">Total Submissions</div></div>
+            <div class="stat"><div class="num" id="todayCount">0</div><div class="label">Today</div></div>
+            <div class="stat"><div class="num" id="topTrigger">—</div><div class="label">Top Trigger</div></div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Addicted For</th>
+                    <th>Total Sent</th>
+                    <th>Trigger</th>
+                    <th>Relapse Freq</th>
+                    <th>On Payday</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        let adminKey = '';
+
+        function login() {
+            adminKey = document.getElementById('keyInput').value;
+            fetchData();
+        }
+
+        document.getElementById('keyInput').addEventListener('keydown', e => {
+            if (e.key === 'Enter') login();
+        });
+
+        async function fetchData() {
+            try {
+                const res = await fetch('/api/results', {
+                    headers: { 'x-admin-key': adminKey }
+                });
+                if (!res.ok) { alert('Wrong key'); return; }
+                const data = await res.json();
+
+                document.getElementById('loginBox').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+
+                document.getElementById('totalCount').textContent = data.total;
+
+                const today = new Date().toDateString();
+                const todayCount = data.submissions.filter(s => new Date(s.timestamp).toDateString() === today).length;
+                document.getElementById('todayCount').textContent = todayCount;
+
+                // Top trigger
+                const triggers = {};
+                data.submissions.forEach(s => {
+                    const t = s.answers[2] || 'unknown';
+                    const short = t.split('~')[0].trim();
+                    triggers[short] = (triggers[short] || 0) + 1;
+                });
+                const top = Object.entries(triggers).sort((a,b) => b[1] - a[1])[0];
+                document.getElementById('topTrigger').textContent = top ? top[0] : '—';
+
+                // Table
+                const tbody = document.getElementById('tableBody');
+                tbody.innerHTML = data.submissions.map(s => {
+                    const time = new Date(s.timestamp).toLocaleString();
+                    return `<tr>
+                        <td class="user">@${s.username}</td>
+                        <td>${s.answers[0] || '—'}</td>
+                        <td>${s.answers[1] || '—'}</td>
+                        <td><span class="tag tag-trigger">${s.answers[2] || '—'}</span></td>
+                        <td>${s.answers[3] || '—'}</td>
+                        <td>${s.answers[4] || '—'}</td>
+                        <td class="time">${time}</td>
+                    </tr>`;
+                }).join('');
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+    </script>
+</body>
+</html>

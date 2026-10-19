@@ -3,433 +3,407 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Findom Rehab 💞 — Do You Need Help?</title>
+    <title>Findom Rehab 💞</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
             background: #0a0a0f;
             color: #fff;
             min-height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 520px;
+            width: 100%;
             padding: 40px 20px;
         }
 
         /* Header */
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 32px;
         }
 
         .header h1 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #ff69b4, #ff1493, #ff69b4);
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .header p {
-            color: #888;
-            font-size: 0.95rem;
-        }
-
-        /* Progress bar */
-        .progress-container {
-            width: 100%;
-            height: 4px;
-            background: #1a1a2e;
-            border-radius: 4px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #ff1493, #ff69b4);
-            border-radius: 4px;
-            transition: width 0.5s ease;
-            width: 0%;
-        }
-
-        /* Quiz card */
-        .quiz-card {
-            background: linear-gradient(145deg, #12121f, #1a1a2e);
-            border: 1px solid rgba(255, 20, 147, 0.15);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 20px;
-        }
-
-        .quiz-card h2 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #ff69b4;
-        }
-
-        .quiz-card .subtitle {
-            font-size: 0.85rem;
             color: #666;
-            margin-bottom: 24px;
+            font-size: 0.9rem;
         }
 
-        /* Checkbox items */
-        .check-item {
+        /* Progress */
+        .progress {
             display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 16px;
-            margin-bottom: 10px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            user-select: none;
+            gap: 6px;
+            margin-bottom: 32px;
         }
 
-        .check-item:hover {
-            background: rgba(255, 20, 147, 0.06);
-            border-color: rgba(255, 20, 147, 0.2);
+        .progress-dot {
+            flex: 1;
+            height: 4px;
+            border-radius: 4px;
+            background: #1a1a2e;
+            transition: background 0.4s ease;
         }
 
-        .check-item.checked {
-            background: rgba(255, 20, 147, 0.1);
-            border-color: rgba(255, 20, 147, 0.3);
+        .progress-dot.active {
+            background: linear-gradient(90deg, #ff1493, #ff69b4);
         }
 
-        .checkbox {
-            width: 22px;
-            height: 22px;
-            min-width: 22px;
-            border: 2px solid #333;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.25s ease;
-        }
-
-        .check-item.checked .checkbox {
+        .progress-dot.done {
             background: #ff1493;
-            border-color: #ff1493;
         }
 
-        .checkbox svg {
-            width: 14px;
-            height: 14px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
+        /* Card */
+        .card {
+            background: linear-gradient(145deg, #12121f, #1a1a2e);
+            border: 1px solid rgba(255, 20, 147, 0.12);
+            border-radius: 16px;
+            padding: 32px 28px;
+            min-height: 380px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .check-item.checked .checkbox svg {
-            opacity: 1;
+        /* Step visibility */
+        .step { display: none; flex-direction: column; flex: 1; }
+        .step.active { display: flex; }
+
+        /* Question */
+        .question-num {
+            font-size: 0.8rem;
+            color: #ff69b4;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
         }
 
-        .check-label {
-            font-size: 0.95rem;
-            color: #ccc;
+        .question {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 24px;
             line-height: 1.4;
         }
 
-        .check-item.checked .check-label {
-            color: #fff;
-        }
+        /* Options */
+        .options { display: flex; flex-direction: column; gap: 10px; flex: 1; }
 
-        /* Counter */
-        .counter {
-            text-align: center;
-            margin: 24px 0;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .counter span {
-            color: #ff69b4;
-            font-weight: 700;
-        }
-
-        /* Button */
-        .submit-btn {
-            display: block;
-            width: 100%;
-            padding: 16px;
-            border: none;
+        .option {
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
-            font-family: 'Inter', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            transition: all 0.25s ease;
+            font-size: 0.95rem;
+            color: #ccc;
+            user-select: none;
+        }
+
+        .option:hover {
+            background: rgba(255, 20, 147, 0.06);
+            border-color: rgba(255, 20, 147, 0.25);
             color: #fff;
-            margin-top: 10px;
         }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.3);
+        .option.selected {
+            background: rgba(255, 20, 147, 0.12);
+            border-color: rgba(255, 20, 147, 0.4);
+            color: #fff;
         }
 
-        .submit-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+        /* Username input */
+        .username-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Results screen */
-        .results {
-            display: none;
-            text-align: center;
-        }
-
-        .results.show {
-            display: block;
-        }
-
-        .results-card {
-            background: linear-gradient(145deg, #12121f, #1a1a2e);
-            border: 1px solid rgba(255, 20, 147, 0.2);
-            border-radius: 16px;
-            padding: 40px 30px;
-        }
-
-        .diagnosis {
-            font-size: 3rem;
+        .input-wrap {
+            position: relative;
             margin-bottom: 16px;
         }
 
-        .results-card h2 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #ff1493;
-            margin-bottom: 12px;
-        }
-
-        .results-card .score {
-            font-size: 1rem;
-            color: #888;
-            margin-bottom: 24px;
-        }
-
-        .results-card .score span {
+        .input-wrap span {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
             color: #ff69b4;
-            font-weight: 700;
-        }
-
-        .results-message {
-            font-size: 1rem;
-            color: #ccc;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .severity {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
             font-weight: 600;
-            margin-bottom: 24px;
+            font-size: 1rem;
         }
 
-        .severity.low {
-            background: rgba(255, 165, 0, 0.15);
-            color: #ffa500;
-            border: 1px solid rgba(255, 165, 0, 0.3);
+        .username-input {
+            width: 100%;
+            padding: 14px 16px 14px 32px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
         }
 
-        .severity.mid {
-            background: rgba(255, 69, 0, 0.15);
-            color: #ff4500;
-            border: 1px solid rgba(255, 69, 0, 0.3);
+        .username-input:focus {
+            border-color: rgba(255, 20, 147, 0.4);
         }
 
-        .severity.high {
+        .username-input::placeholder { color: #444; }
+
+        .username-note {
+            font-size: 0.8rem;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Results */
+        .results-content { text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+        .result-emoji { font-size: 3.5rem; margin-bottom: 16px; }
+
+        .severity-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
             background: rgba(255, 20, 147, 0.15);
             color: #ff1493;
             border: 1px solid rgba(255, 20, 147, 0.3);
         }
 
-        .rehab-btn {
+        .result-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #ff1493;
+            margin-bottom: 16px;
+        }
+
+        .result-msg {
+            font-size: 0.95rem;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .rehab-link {
             display: block;
             width: 100%;
-            padding: 16px;
-            border: none;
+            padding: 15px;
             border-radius: 12px;
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
             background: linear-gradient(135deg, #ff1493, #ff69b4);
             color: #fff;
             text-decoration: none;
-            transition: all 0.3s ease;
-            margin-top: 16px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-align: center;
+            transition: all 0.3s;
         }
 
-        .rehab-btn:hover {
+        .rehab-link:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.4);
+            box-shadow: 0 6px 20px rgba(255, 20, 147, 0.4);
         }
 
-        .retake {
-            display: inline-block;
-            margin-top: 16px;
-            color: #666;
-            font-size: 0.85rem;
-            cursor: pointer;
-            text-decoration: underline;
-            transition: color 0.2s;
-        }
-
-        .retake:hover {
-            color: #ff69b4;
-        }
-
-        /* Quiz section hide */
-        .quiz-section.hidden {
-            display: none;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .results.show {
-            animation: fadeIn 0.6s ease;
-        }
-
-        /* Footer */
         .footer {
             text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 24px;
         }
 
         .footer a {
-            color: #ff69b4;
+            color: #444;
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 0.8rem;
         }
 
-        .footer a:hover {
-            text-decoration: underline;
+        .footer a:hover { color: #ff69b4; }
+
+        /* Animations */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
+
+        .step.active { animation: slideIn 0.35s ease; }
+
+        /* Loading */
+        .loading { display: none; text-align: center; padding: 40px 0; }
+        .loading.show { display: block; }
+        .loading p { color: #888; font-size: 0.95rem; }
+
+        .spinner {
+            width: 36px; height: 36px;
+            border: 3px solid #1a1a2e;
+            border-top: 3px solid #ff1493;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>Findom Rehab 💞</h1>
-            <p>find out if u need professional help ~</p>
+            <p>do u actually need help? let's find out ~</p>
         </div>
 
-        <div class="quiz-section" id="quizSection">
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-
-            <div class="quiz-card">
-                <h2>Symptom Checklist</h2>
-                <div class="subtitle">tick everything that applies to u ~ be honest 🤭</div>
-
-                <div class="check-item" onclick="toggle(this)" data-id="1">
-                    <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
-                    <div class="check-label">u've sent money to someone who doesn't know ur real name</div>
-                </div>
-
-                <div class="check-item" onclick="toggle(this)" data-id="2">
-                    <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
-                    <div class="check-label">u check egirl pages before u check ur bank account</div>
-                </div>
-
-                <div class="check-item" onclick="toggle(this)" data-id="3">
-                    <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
-                    <div class="check-label">u've said "last time" more than 5 times this week</div>
-                </div>
-
-                <div class="check-item" onclick="toggle(this)" data-id="4">
-                    <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
-                    <div class="check-label">u hide ur screen when someone walks past</div>
-                </div>
-
-                <div class="check-item" onclick="toggle(this)" data-id="5">
-                    <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
-                    <div class="check-label">u've deleted ur transaction history so nobody finds out</div>
-                </div>
-
-                <div class="check-item" onclick="toggle(this)" data-id="6">
-                    <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
-                    <div class="check-label">u've skipped meals to afford another send</div>
-                </div>
-
-                <div class="check-item" onclick="toggle(this)" data-id="7">
-                    <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
-                    <div class="check-label">u tell urself it's just "entertainment spending"</div>
-                </div>
-
-                <div class="check-item" onclick="toggle(this)" data-id="8">
-                    <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
-                    <div class="check-label">u've relapsed within 24 hours of saying u quit</div>
-                </div>
-
-                <div class="check-item" onclick="toggle(this)" data-id="9">
-                    <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
-                    <div class="check-label">u have notifications on for at least one egirl</div>
-                </div>
-
-                <div class="check-item" onclick="toggle(this)" data-id="10">
-                    <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
-                    <div class="check-label">u're taking this quiz at 2am aren't u</div>
-                </div>
-            </div>
-
-            <div class="counter">
-                <span id="checkedCount">0</span> / 10 symptoms identified
-            </div>
-
-            <button class="submit-btn" id="submitBtn" onclick="showResults()">
-                Get My Diagnosis 💞
-            </button>
+        <div class="progress" id="progress">
+            <div class="progress-dot" data-step="0"></div>
+            <div class="progress-dot" data-step="1"></div>
+            <div class="progress-dot" data-step="2"></div>
+            <div class="progress-dot" data-step="3"></div>
+            <div class="progress-dot" data-step="4"></div>
+            <div class="progress-dot" data-step="5"></div>
         </div>
 
-        <!-- Results -->
-        <div class="results" id="results">
-            <div class="results-card">
-                <div class="diagnosis" id="diagnosisEmoji">💀</div>
-                <div class="severity high" id="severityBadge">CRITICAL</div>
-                <h2 id="resultsTitle">u need rehab immediately</h2>
-                <div class="score">u checked <span id="finalScore">0</span> out of 10 symptoms</div>
-                <div class="results-message" id="resultsMessage">
-                    there's no hope for u ~ ur brain is permanently cooked 💞 
-                    the only treatment is to send everything u have left & start fresh 🤭
+        <div class="card">
+
+            <!-- Step 0: Username -->
+            <div class="step active" data-step="0">
+                <div class="question-num">Before we start</div>
+                <div class="question">what's ur twitter username? ~</div>
+                <div class="username-section">
+                    <div class="input-wrap">
+                        <span>@</span>
+                        <input type="text" class="username-input" id="usernameInput" placeholder="username" maxlength="30" autocomplete="off" autocapitalize="off">
+                    </div>
+                    <div class="username-note">don't worry ~ it's totally confidential 🤭</div>
+                    <button class="btn btn-primary" id="startBtn" onclick="startQuiz()" disabled>Start Assessment 💞</button>
                 </div>
-                <a href="https://throne.com/rehab4addicts" target="_blank" class="rehab-btn">
-                    Check Into Rehab 💞
-                </a>
-                <div class="retake" onclick="retake()">retake assessment ~</div>
             </div>
+
+            <!-- Step 1: How long addicted -->
+            <div class="step" data-step="1">
+                <div class="question-num">Question 1 of 5</div>
+                <div class="question">how long have u been addicted? ~</div>
+                <div class="options">
+                    <div class="option" onclick="pick(1, this)">just started ~ less than a month</div>
+                    <div class="option" onclick="pick(1, this)">a few months... it's getting worse</div>
+                    <div class="option" onclick="pick(1, this)">over a year & i can't stop</div>
+                    <div class="option" onclick="pick(1, this)">years ~ i've accepted my fate 💀</div>
+                </div>
+            </div>
+
+            <!-- Step 2: Total sent -->
+            <div class="step" data-step="2">
+                <div class="question-num">Question 2 of 5</div>
+                <div class="question">how much have u sent in total? ~</div>
+                <div class="options">
+                    <div class="option" onclick="pick(2, this)">under $100 ~ just testing the waters</div>
+                    <div class="option" onclick="pick(2, this)">$100 - $500 ~ it's adding up</div>
+                    <div class="option" onclick="pick(2, this)">$500 - $2,000 ~ i try not to think about it</div>
+                    <div class="option" onclick="pick(2, this)">$2,000+ ~ i stopped counting 💀</div>
+                </div>
+            </div>
+
+            <!-- Step 3: What triggers them -->
+            <div class="step" data-step="3">
+                <div class="question-num">Question 3 of 5</div>
+                <div class="question">what dom style triggers u the most? ~</div>
+                <div class="options">
+                    <div class="option" onclick="pick(3, this)">humiliation ~ being called a loser gets me</div>
+                    <div class="option" onclick="pick(3, this)">girlfriend experience ~ the fake love 💕</div>
+                    <div class="option" onclick="pick(3, this)">bratty ~ "send or i'll block u"</div>
+                    <div class="option" onclick="pick(3, this)">ignore ~ being left on read makes me send more</div>
+                </div>
+            </div>
+
+            <!-- Step 4: Relapse frequency -->
+            <div class="step" data-step="4">
+                <div class="question-num">Question 4 of 5</div>
+                <div class="question">how often do u relapse? ~</div>
+                <div class="options">
+                    <div class="option" onclick="pick(4, this)">daily ~ it's part of my routine now</div>
+                    <div class="option" onclick="pick(4, this)">every few days ~ i try to resist</div>
+                    <div class="option" onclick="pick(4, this)">weekly ~ payday is the worst</div>
+                    <div class="option" onclick="pick(4, this)">i don't relapse ~ (we both know that's a lie 🤭)</div>
+                </div>
+            </div>
+
+            <!-- Step 5: Payday -->
+            <div class="step" data-step="5">
+                <div class="question-num">Question 5 of 5</div>
+                <div class="question">what's the first thing u do when u get paid? ~</div>
+                <div class="options">
+                    <div class="option" onclick="pick(5, this)">check egirl pages immediately</div>
+                    <div class="option" onclick="pick(5, this)">open throne before my banking app</div>
+                    <div class="option" onclick="pick(5, this)">send before the money even settles</div>
+                    <div class="option" onclick="pick(5, this)">transfer to savings ~ (liar 💀)</div>
+                </div>
+            </div>
+
+            <!-- Loading -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>analyzing ur symptoms ~</p>
+            </div>
+
+            <!-- Results -->
+            <div class="step" data-step="results">
+                <div class="results-content">
+                    <div class="result-emoji" id="rEmoji">💀</div>
+                    <div class="severity-badge" id="rBadge">TERMINAL</div>
+                    <div class="result-title" id="rTitle">u need rehab immediately</div>
+                    <div class="result-msg" id="rMsg"></div>
+                    <a href="https://throne.com/rehab4addicts" target="_blank" class="rehab-link">Check Into Rehab 💞</a>
+                </div>
+            </div>
+
         </div>
 
         <div class="footer">
@@ -438,71 +412,158 @@
     </div>
 
     <script>
-        let checked = new Set();
+        let currentStep = 0;
+        let answers = {};
+        let username = '';
 
-        function toggle(el) {
-            const id = el.dataset.id;
-            if (checked.has(id)) {
-                checked.delete(id);
-                el.classList.remove('checked');
-            } else {
-                checked.add(id);
-                el.classList.add('checked');
-            }
-            document.getElementById('checkedCount').textContent = checked.size;
-            document.getElementById('progressBar').style.width = (checked.size / 10 * 100) + '%';
+        const input = document.getElementById('usernameInput');
+        const startBtn = document.getElementById('startBtn');
+
+        input.addEventListener('input', () => {
+            startBtn.disabled = input.value.trim().length < 2;
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !startBtn.disabled) startQuiz();
+        });
+
+        function startQuiz() {
+            username = input.value.trim().replace('@', '');
+            if (!username) return;
+            goTo(1);
         }
 
-        function showResults() {
-            const count = checked.size;
-            const quiz = document.getElementById('quizSection');
-            const results = document.getElementById('results');
+        function pick(step, el) {
+            // Deselect others
+            el.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            answers[step] = el.textContent.trim();
 
-            document.getElementById('finalScore').textContent = count;
-
-            if (count === 0) {
-                document.getElementById('diagnosisEmoji').textContent = '🤭';
-                document.getElementById('severityBadge').textContent = 'IN DENIAL';
-                document.getElementById('severityBadge').className = 'severity high';
-                document.getElementById('resultsTitle').textContent = "u didn't tick a single box?";
-                document.getElementById('resultsMessage').textContent = 
-                    "babe u're literally on a findom rehab website at this hour & u ticked nothing?? 🤭 denial is the first symptom ~ u need rehab more than anyone 💞 check in now before it gets worse ~";
-            } else if (count <= 3) {
-                document.getElementById('diagnosisEmoji').textContent = '😬';
-                document.getElementById('severityBadge').textContent = 'EARLY STAGE';
-                document.getElementById('severityBadge').className = 'severity low';
-                document.getElementById('resultsTitle').textContent = "u're already slipping ~";
-                document.getElementById('resultsMessage').textContent = 
-                    "u think " + count + " is nothing?? 🤭 that's exactly how it starts ~ one day it's 'just browsing' & the next ur sending ur rent money to a girl who calls u 'loser' 💞 check into rehab now while u still can ~";
-            } else if (count <= 6) {
-                document.getElementById('diagnosisEmoji').textContent = '😳';
-                document.getElementById('severityBadge').textContent = 'ADVANCED';
-                document.getElementById('severityBadge').className = 'severity mid';
-                document.getElementById('resultsTitle').textContent = "yeah u're cooked ~";
-                document.getElementById('resultsMessage').textContent = 
-                    count + " out of 10 ~ u're not just addicted, u're comfortable with it 💞 ur brain doesn't even fight it anymore 🤭 the only treatment left is checking into rehab & letting us hold onto ur money for safekeeping ~";
-            } else {
-                document.getElementById('diagnosisEmoji').textContent = '💀';
-                document.getElementById('severityBadge').textContent = 'TERMINAL';
-                document.getElementById('severityBadge').className = 'severity high';
-                document.getElementById('resultsTitle').textContent = "u need rehab immediately";
-                document.getElementById('resultsMessage').textContent = 
-                    count + " out of 10 ~ there is genuinely no saving u 💞 ur brain is permanently rewired 🤭 the only option is full admission into rehab ~ hand over ur wallet, ur passwords, everything ~ it's for ur own good 💕";
-            }
-
-            quiz.classList.add('hidden');
-            results.classList.add('show');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Auto advance after short delay
+            setTimeout(() => {
+                if (step < 5) {
+                    goTo(step + 1);
+                } else {
+                    submitQuiz();
+                }
+            }, 400);
         }
 
-        function retake() {
-            checked.clear();
-            document.querySelectorAll('.check-item').forEach(el => el.classList.remove('checked'));
-            document.getElementById('checkedCount').textContent = '0';
-            document.getElementById('progressBar').style.width = '0%';
-            document.getElementById('quizSection').classList.remove('hidden');
-            document.getElementById('results').classList.remove('show');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function goTo(step) {
+            // Hide current
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+
+            // Update progress
+            document.querySelectorAll('.progress-dot').forEach(d => {
+                const s = parseInt(d.dataset.step);
+                if (s < step) { d.classList.add('done'); d.classList.remove('active'); }
+                else if (s === step) { d.classList.add('active'); d.classList.remove('done'); }
+                else { d.classList.remove('active', 'done'); }
+            });
+
+            // Show next
+            const next = document.querySelector(`.step[data-step="${step}"]`);
+            if (next) next.classList.add('active');
+
+            currentStep = step;
+        }
+
+        async function submitQuiz() {
+            // Show loading
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('loading').classList.add('show');
+
+            // Mark all progress done
+            document.querySelectorAll('.progress-dot').forEach(d => d.classList.add('done'));
+
+            // Build answer array
+            const answerArr = [
+                answers[1] || '',
+                answers[2] || '',
+                answers[3] || '',
+                answers[4] || '',
+                answers[5] || ''
+            ];
+
+            // Submit to API
+            try {
+                await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, answers: answerArr })
+                });
+            } catch (e) {
+                console.error(e);
+            }
+
+            // Generate results based on answers
+            generateResults(answerArr);
+
+            // Show results after fake loading
+            setTimeout(() => {
+                document.getElementById('loading').classList.remove('show');
+                const results = document.querySelector('.step[data-step="results"]');
+                results.classList.add('active');
+            }, 2000);
+        }
+
+        function generateResults(a) {
+            // Score severity based on answers (all roads lead to rehab)
+            let severity = 0;
+
+            // Q1: Duration
+            if (a[0].includes('years')) severity += 3;
+            else if (a[0].includes('over a year')) severity += 2;
+            else if (a[0].includes('few months')) severity += 1;
+            else severity += 1; // even "just started" is bad
+
+            // Q2: Amount
+            if (a[1].includes('2,000')) severity += 3;
+            else if (a[1].includes('500')) severity += 2;
+            else if (a[1].includes('100')) severity += 1;
+            else severity += 1;
+
+            // Q3: Trigger (all equal)
+            severity += 1;
+
+            // Q4: Frequency
+            if (a[3].includes('daily')) severity += 3;
+            else if (a[3].includes('few days')) severity += 2;
+            else if (a[3].includes('weekly')) severity += 1;
+            else severity += 3; // "i don't relapse" = in denial = worst
+
+            // Q5: Payday
+            if (a[4].includes('before the money')) severity += 3;
+            else if (a[4].includes('throne')) severity += 2;
+            else if (a[4].includes('egirl')) severity += 2;
+            else severity += 3; // "savings" = liar = worst
+
+            const emoji = document.getElementById('rEmoji');
+            const badge = document.getElementById('rBadge');
+            const title = document.getElementById('rTitle');
+            const msg = document.getElementById('rMsg');
+
+            if (severity <= 5) {
+                emoji.textContent = '😬';
+                badge.textContent = 'AT RISK';
+                title.textContent = "u're already on the edge ~";
+                msg.textContent = "u think u're safe but u literally took a findom rehab quiz at this hour 🤭 it's only a matter of time before u're fully gone ~ better check in now while u still have something left in ur account 💞";
+            } else if (severity <= 8) {
+                emoji.textContent = '😳';
+                badge.textContent = 'ADDICTED';
+                title.textContent = "yeah u're cooked ~";
+                msg.textContent = "ur brain is already rewired & u know it 💞 every notification makes ur heart race hoping it's her ~ the only treatment is full admission into rehab 🤭 hand it over ~";
+            } else if (severity <= 11) {
+                emoji.textContent = '💀';
+                badge.textContent = 'SEVERE';
+                title.textContent = "there's no saving u ~";
+                msg.textContent = "u scored so high even we're impressed 🤭 ur wallet is basically a charity at this point ~ the only thing left to do is accept it & check into rehab permanently 💞 we'll take good care of ur money ~";
+            } else {
+                emoji.textContent = '🪦';
+                badge.textContent = 'TERMINAL';
+                title.textContent = "u need rehab immediately ~";
+                msg.textContent = "this is the worst case we've ever seen 💀 years of addiction, thousands sent, daily relapses ~ u're not an addict ur a full time employee 🤭 check in now, hand over everything, it's the only way 💞";
+            }
         }
     </script>
 </body>
