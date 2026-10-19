@@ -376,15 +376,16 @@
                 </div>
             </div>
 
-            <!-- Step 5: Payday -->
+            <!-- Step 5: Type of girl -->
             <div class="step" data-step="5">
                 <div class="question-num">Question 5 of 5</div>
-                <div class="question">what's the first thing u do when u get paid? ~</div>
+                <div class="question">what type of girl ruins u the most? ~</div>
                 <div class="options">
-                    <div class="option" onclick="pick(5, this)">check egirl pages immediately</div>
-                    <div class="option" onclick="pick(5, this)">open throne before my banking app</div>
-                    <div class="option" onclick="pick(5, this)">send before the money even settles</div>
-                    <div class="option" onclick="pick(5, this)">transfer to savings ~ (liar 💀)</div>
+                    <div class="option" onclick="pick(5, this)">cute & innocent ~ the "i'd neverrr" type</div>
+                    <div class="option" onclick="pick(5, this)">mean & aggressive ~ she calls u pathetic & u thank her</div>
+                    <div class="option" onclick="pick(5, this)">goth / alt ~ the eyeliner gets u every time</div>
+                    <div class="option" onclick="pick(5, this)">egirl ~ anime pfp & pink everything</div>
+                    <div class="option" onclick="pick(5, this)">the girl next door ~ she looks normal but she's dangerous</div>
                 </div>
             </div>
 
@@ -533,11 +534,8 @@
             else if (a[3].includes('weekly')) severity += 1;
             else severity += 3; // "i don't relapse" = in denial = worst
 
-            // Q5: Payday
-            if (a[4].includes('before the money')) severity += 3;
-            else if (a[4].includes('throne')) severity += 2;
-            else if (a[4].includes('egirl')) severity += 2;
-            else severity += 3; // "savings" = liar = worst
+            // Q5: Type of girl (all equally bad)
+            severity += 2;
 
             const emoji = document.getElementById('rEmoji');
             const badge = document.getElementById('rBadge');

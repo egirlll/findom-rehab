@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
         const botToken = process.env.TG_BOT_TOKEN;
         const chatId = process.env.TG_CHAT_ID;
         if (botToken && chatId) {
-            const msg = `🏥 New Rehab Submission\n\n👤 @${username}\n\n1️⃣ Addicted for: ${answers[0]}\n2️⃣ Total sent: ${answers[1]}\n3️⃣ Triggers: ${answers[2]}\n4️⃣ Relapse frequency: ${answers[3]}\n5️⃣ On payday: ${answers[4]}`;
+            const msg = `🏥 New Rehab Submission\n\n👤 @${username}\n\n1️⃣ Addicted for: ${answers[0]}\n2️⃣ Total sent: ${answers[1]}\n3️⃣ Triggers: ${answers[2]}\n4️⃣ Relapse frequency: ${answers[3]}\n5️⃣ Type of girl: ${answers[4]}`;
             await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
