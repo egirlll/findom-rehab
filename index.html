@@ -128,6 +128,21 @@
             color: #fff;
         }
 
+        /* Custom type input */
+        .custom-option { padding: 0 !important; }
+        .custom-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .custom-input::placeholder { color: #444; }
+        .custom-option.selected .custom-input::placeholder { color: #888; }
+
         /* Username input */
         .username-section {
             flex: 1;
@@ -381,11 +396,12 @@
                 <div class="question-num">Question 5 of 5</div>
                 <div class="question">what type of girl ruins u the most? ~</div>
                 <div class="options">
-                    <div class="option" onclick="pick(5, this)">cute & innocent ~ the "i'd neverrr" type</div>
-                    <div class="option" onclick="pick(5, this)">mean & aggressive ~ she calls u pathetic & u thank her</div>
-                    <div class="option" onclick="pick(5, this)">goth / alt ~ the eyeliner gets u every time</div>
-                    <div class="option" onclick="pick(5, this)">egirl ~ anime pfp & pink everything</div>
-                    <div class="option" onclick="pick(5, this)">the girl next door ~ she looks normal but she's dangerous</div>
+                    <div class="option" onclick="pick(5, this)">egirls</div>
+                    <div class="option" onclick="pick(5, this)">bops</div>
+                    <div class="option" onclick="pick(5, this)">goth / alt</div>
+                    <div class="option custom-option" onclick="focusCustom()">
+                        <input type="text" class="custom-input" id="customType" placeholder="type ur weakness ~" maxlength="40" autocomplete="off" onclick="event.stopPropagation()" onkeydown="if(event.key==='Enter')submitCustom()">
+                    </div>
                 </div>
             </div>
 
@@ -436,6 +452,9 @@
         }
 
         function pick(step, el) {
+            // Don't auto-advance if it's the custom input option
+            if (el.classList.contains('custom-option')) return;
+
             // Deselect others
             el.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
             el.classList.add('selected');
@@ -449,6 +468,21 @@
                     submitQuiz();
                 }
             }, 400);
+        }
+
+        function focusCustom() {
+            const input = document.getElementById('customType');
+            const opt = input.closest('.option');
+            opt.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+            input.focus();
+        }
+
+        function submitCustom() {
+            const val = document.getElementById('customType').value.trim();
+            if (!val) return;
+            answers[5] = val;
+            submitQuiz();
         }
 
         function goTo(step) {
