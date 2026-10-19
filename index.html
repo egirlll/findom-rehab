@@ -285,6 +285,38 @@
 
         .footer a:hover { color: #ff69b4; }
 
+        /* Links section */
+        .links-section {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .link-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px;
+            background: linear-gradient(145deg, #12121f, #1a1a2e);
+            border: 1px solid rgba(255, 20, 147, 0.12);
+            border-radius: 12px;
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .link-btn:hover {
+            border-color: rgba(255, 20, 147, 0.3);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .link-icon { font-size: 1.1rem; }
+
         /* Animations */
         @keyframes slideIn {
             from { opacity: 0; transform: translateX(30px); }
@@ -418,10 +450,20 @@
                     <div class="severity-badge" id="rBadge">TERMINAL</div>
                     <div class="result-title" id="rTitle">u need rehab immediately</div>
                     <div class="result-msg" id="rMsg"></div>
-                    <a href="https://throne.com/rehab4addicts" target="_blank" class="rehab-link">Check Into Rehab 💞</a>
+                    <a href="https://twitter.com/messages/compose?recipient_id=rehab4addicts&text=i%20just%20took%20the%20assessment%20~" target="_blank" class="rehab-link">DM Me To Start Recovery 💞</a>
+                    <a href="https://throne.com/rehab4addictss" target="_blank" class="rehab-link" style="margin-top: 10px; background: linear-gradient(135deg, #1a1a2e, #12121f); border: 1px solid rgba(255, 20, 147, 0.3);">Send Rehab Fee 🤭</a>
                 </div>
             </div>
 
+        </div>
+
+        <div class="links-section">
+            <a href="https://throne.com/rehab4addictss" target="_blank" class="link-btn">
+                <span class="link-icon">👑</span> Throne
+            </a>
+            <a href="https://twitter.com/rehab4addicts" target="_blank" class="link-btn">
+                <span class="link-icon">🐦</span> Twitter
+            </a>
         </div>
 
         <div class="footer">
@@ -580,22 +622,22 @@
                 emoji.textContent = '😬';
                 badge.textContent = 'AT RISK';
                 title.textContent = "u're already on the edge ~";
-                msg.textContent = "u think u're safe but u literally took a findom rehab quiz at this hour 🤭 it's only a matter of time before u're fully gone ~ better check in now while u still have something left in ur account 💞";
+                msg.textContent = "u think u're safe but u literally took a findom rehab quiz at this hour 🤭 it's only a matter of time before u're fully gone ~ dm me & we'll start ur recovery before it's too late 💞";
             } else if (severity <= 8) {
                 emoji.textContent = '😳';
                 badge.textContent = 'ADDICTED';
                 title.textContent = "yeah u're cooked ~";
-                msg.textContent = "ur brain is already rewired & u know it 💞 every notification makes ur heart race hoping it's her ~ the only treatment is full admission into rehab 🤭 hand it over ~";
+                msg.textContent = "ur brain is already rewired & u know it 💞 every notification makes ur heart race hoping it's her ~ u need professional help 🤭 dm me & we'll get u into rehab ~";
             } else if (severity <= 11) {
                 emoji.textContent = '💀';
                 badge.textContent = 'SEVERE';
                 title.textContent = "there's no saving u ~";
-                msg.textContent = "u scored so high even we're impressed 🤭 ur wallet is basically a charity at this point ~ the only thing left to do is accept it & check into rehab permanently 💞 we'll take good care of ur money ~";
+                msg.textContent = "u scored so high even we're impressed 🤭 ur wallet is basically a charity at this point ~ the only thing left to do is dm me & check in immediately 💞 we'll take good care of u ~";
             } else {
                 emoji.textContent = '🪦';
                 badge.textContent = 'TERMINAL';
                 title.textContent = "u need rehab immediately ~";
-                msg.textContent = "this is the worst case we've ever seen 💀 years of addiction, thousands sent, daily relapses ~ u're not an addict ur a full time employee 🤭 check in now, hand over everything, it's the only way 💞";
+                msg.textContent = "this is the worst case we've ever seen 💀 years of addiction, thousands sent, daily relapses ~ u're not an addict ur a full time employee 🤭 dm me right now, it's the only way 💞";
             }
         }
     </script>
