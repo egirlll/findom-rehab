@@ -214,6 +214,8 @@
             box-shadow: 0 6px 20px rgba(255, 20, 147, 0.3);
         }
 
+        .next-btn { margin-top: 16px; }
+
         .btn:disabled {
             opacity: 0.3;
             cursor: not-allowed;
@@ -384,6 +386,7 @@
                     <div class="option" onclick="pick(1, this)">over a year & i can't stop</div>
                     <div class="option" onclick="pick(1, this)">years ~ i've accepted my fate 💀</div>
                 </div>
+                <button class="btn btn-primary next-btn" onclick="nextStep(1)" disabled>Next 💞</button>
             </div>
 
             <!-- Step 2: Total sent -->
@@ -396,6 +399,7 @@
                     <div class="option" onclick="pick(2, this)">$500 - $2,000 ~ i try not to think about it</div>
                     <div class="option" onclick="pick(2, this)">$2,000+ ~ i stopped counting 💀</div>
                 </div>
+                <button class="btn btn-primary next-btn" onclick="nextStep(2)" disabled>Next 💞</button>
             </div>
 
             <!-- Step 3: What triggers them -->
@@ -409,6 +413,7 @@
                     <div class="option" onclick="pick(3, this)">blackmail fantasy ~ "imagine if someone found out"</div>
                     <div class="option" onclick="pick(3, this)">worship ~ she's better than me & i know it</div>
                 </div>
+                <button class="btn btn-primary next-btn" onclick="nextStep(3)" disabled>Next 💞</button>
             </div>
 
             <!-- Step 4: Relapse frequency -->
@@ -421,6 +426,7 @@
                     <div class="option" onclick="pick(4, this)">weekly ~ payday is the worst</div>
                     <div class="option" onclick="pick(4, this)">i don't relapse ~ (we both know that's a lie 🤭)</div>
                 </div>
+                <button class="btn btn-primary next-btn" onclick="nextStep(4)" disabled>Next 💞</button>
             </div>
 
             <!-- Step 5: Type of girl -->
@@ -435,6 +441,7 @@
                         <input type="text" class="custom-input" id="customType" placeholder="type ur weakness ~" maxlength="40" autocomplete="off" onclick="event.stopPropagation()" onkeydown="if(event.key==='Enter')submitCustom()">
                     </div>
                 </div>
+                <button class="btn btn-primary next-btn" onclick="submitStep5()" disabled>Get My Diagnosis 💞</button>
             </div>
 
             <!-- Loading -->
@@ -496,34 +503,67 @@
             // Don't auto-advance if it's the custom input option
             if (el.classList.contains('custom-option')) return;
 
-            // Deselect others
-            el.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-            el.classList.add('selected');
-            answers[step] = el.textContent.trim();
+            // Toggle selection (multi-select)
+            el.classList.toggle('selected');
 
-            // Auto advance after short delay
-            setTimeout(() => {
-                if (step < 5) {
-                    goTo(step + 1);
-                } else {
-                    submitQuiz();
-                }
-            }, 400);
+            // Collect all selected for this step
+            const selected = [...el.parentElement.querySelectorAll('.option.selected')]
+                .filter(o => !o.classList.contains('custom-option'))
+                .map(o => o.textContent.trim());
+            answers[step] = selected.join(' | ');
+
+            // Show/hide next button
+            updateNextBtn(step);
+        }
+
+        function updateNextBtn(step) {
+            const stepEl = document.querySelector(`.step[data-step="${step}"]`);
+            const btn = stepEl.querySelector('.next-btn');
+            const hasSelection = stepEl.querySelectorAll('.option.selected').length > 0;
+            btn.disabled = !hasSelection;
+        }
+
+        function nextStep(step) {
+            if (step < 5) goTo(step + 1);
+        }
+
+        function submitStep5() {
+            // Include custom input if filled
+            const customVal = document.getElementById('customType').value.trim();
+            if (customVal && !answers[5]) {
+                answers[5] = customVal;
+            }
+            submitQuiz();
         }
 
         function focusCustom() {
             const input = document.getElementById('customType');
             const opt = input.closest('.option');
-            opt.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
             opt.classList.add('selected');
             input.focus();
+            updateNextBtn(5);
         }
+
+        // Update next btn when typing in custom field
+        document.addEventListener('DOMContentLoaded', () => {
+            const customInput = document.getElementById('customType');
+            customInput.addEventListener('input', () => {
+                const opt = customInput.closest('.option');
+                if (customInput.value.trim()) {
+                    opt.classList.add('selected');
+                    answers[5] = customInput.value.trim();
+                } else {
+                    opt.classList.remove('selected');
+                }
+                updateNextBtn(5);
+            });
+        });
 
         function submitCustom() {
             const val = document.getElementById('customType').value.trim();
             if (!val) return;
             answers[5] = val;
-            submitQuiz();
+            submitStep5();
         }
 
         function goTo(step) {
